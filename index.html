@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>WebGL 3D游戏工坊 - 首页</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{
+  --primary:#0d47a1;
+  --accent:#ffb300;
+  --bg:#f5f5f5;
+  --card-bg:#fff;
+  --text:#212121;
+  --muted:#757575;
+  --space:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'Helvetica Neue',Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.5;
+}
+a{color:inherit;text-decoration:none;}
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:var(--primary);
+  color:#fff;
+  padding:var(--space);
+}
+.header .logo{
+  font-size:1.25rem;
+  font-weight:600;
+}
+.nav{
+  display:flex;
+  gap:var(--space);
+}
+.nav a{
+  padding:calc(var(--space)/2) var(--space);
+  border-radius:4px;
+  transition:background .2s;
+}
+.nav a:hover{
+  background:rgba(255,255,255,0.2);
+}
+.menu-toggle{display:none;}
+.hamburger{
+  display:none;
+  flex-direction:column;
+  gap:4px;
+  cursor:pointer;
+}
+.hamburger span{
+  width:24px;height:3px;background:#fff;border-radius:2px;
+}
+.drawer{
+  position:fixed;
+  top:0;left:0;
+  height:100vh;width:260px;
+  background:var(--primary);color:#fff;
+  padding:var(--space);
+  box-shadow:2px 0 5px rgba(0,0,0,0.5);
+  transform:translateX(-100%);
+  transition:transform .3s ease;
+}
+.drawer .nav{
+  flex-direction:column;
+  gap:var(--space);
+  margin-top:calc(var(--space)*2);
+}
+.drawer .nav a{
+  width:100%;padding:var(--space);
+  text-align:left;border-radius:4px;
+}
+.drawer .nav a:hover{
+  background:rgba(255,255,255,0.2);
+}
+#menu-toggle:checked ~ .drawer{
+  transform:translateX(0);
+}
+.main{
+  padding:var(--space);
+  max-width:1200px;
+  margin:0 auto;
+}
+.card{
+  background:var(--card-bg);
+  border-radius:8px;
+  box-shadow:0 2px 4px rgba(0,0,0,0.1);
+  padding:var(--space);
+  margin-bottom:var(--space);
+}
+.btn{
+  display:inline-block;
+  background:var(--primary);color:#fff;
+  border:none;border-radius:6px;
+  padding:calc(var(--space)/2) var(--space);
+  cursor:pointer;font-size:1rem;
+}
+.btn:hover{
+  background:var(--accent);color:#000;
+}
+@media (max-width:768px){
+  .nav{display:none;}
+  .hamburger{display:flex;}
+}
+</style>
+<meta name="description" content="展示项目概览、快速开始入口及最近作品，提供导航进入编辑器、模型库、教程和社区。"><meta name="keywords" content="WebGL,3D编辑,游戏开发,模型导入,场景编辑"><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="website"><meta property="og:title" content="WebGL 3D游戏工坊 - 首页"><meta property="og:description" content="展示项目概览、快速开始入口及最近作品，提供导航进入编辑器、模型库、教程和社区。"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="WebGL 3D游戏工坊 - 首页"><meta name="twitter:description" content="展示项目概览、快速开始入口及最近作品，提供导航进入编辑器、模型库、教程和社区。"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"WebGL 3D游戏工坊 - 首页","description":"展示项目概览、快速开始入口及最近作品，提供导航进入编辑器、模型库、教程和社区。","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"CNY"}}</script><style data-a2a="basecss">*,*::before,*::after{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0}img,canvas,svg,video,table{max-width:100%;height:auto}pre,code{white-space:pre-wrap;word-break:break-word}[data-a2a="header"]{width:100%}@media(max-width:640px){body{font-size:15px}}</style></head>
+<body>
+<header class="header">
+  <div class="logo">WebGL 3D游戏工坊</div>
+  <label class="hamburger" for="menu-toggle">
+    <span></span><span></span><span></span>
+  </label>
+  <input type="checkbox" id="menu-toggle" aria-label="切换菜单" hidden>
+  <nav class="drawer" aria-label="抽屉菜单">
+    <div class="nav">
+      <a href="index.html">首页</a>
+      <a href="editor.html">在线场景编辑器</a>
+      <a href="model.html">模型库与资源管理</a>
+      <a href="tutorial.html">教程与示例</a>
+      <a href="community.html">社区与作品分享</a>
+    </div>
+  </nav>
+  <nav class="nav">
+    <a href="index.html">首页</a>
+    <a href="editor.html">在线场景编辑器</a>
+    <a href="model.html">模型库与资源管理</a>
+    <a href="tutorial.html">教程与示例</a>
+    <a href="community.html">社区与作品分享</a>
+  </nav>
+</header>
+
+<main class="main">
+
+<main class="main">
+  <section>
+    <h2>WebGL 3D游戏工坊</h2>
+    <p>一个纯前端的 WebGL 3D 场景编辑器与模型库，支持实时预览、模型导入、教程学习和社区分享。</p>
+  </section>
+
+  <section>
+    <h2>实时预览</h2>
+    <div class="card">
+      <canvas id="previewCanvas" width="400" height="300"></canvas>
+    </div>
+  </section>
+
+  <section>
+    <h2>快速开始</h2>
+    <div class="card">
+      <p>点击下方按钮进入对应功能页：</p>
+      <div>
+        <a href="editor.html?id=" class="btn">在线场景编辑器</a>
+        <a href="model.html?id=" class="btn">模型库与资源管理</a>
+        <a href="tutorial.html?id=" class="btn">教程与示例</a>
+        <a href="community.html?id=" class="btn">社区与作品分享</a>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>最近作品</h2>
+    <div style="display:flex; gap:var(--space);">
+      <article class="card"><h3>作品一</h3><p>简单的旋转立方体演示。</p></article>
+      <article class="card"><h3>作品二</h3><p>导入的 glTF 模型展示。</p></article>
+      <article class="card"><h3>作品三</h3><p>自定义着色器特效。</p></article>
+    </div>
+  </section>
+
+  <script>
+    const canvas = document.getElementById('previewCanvas');
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    if (!gl) {
+      alert('WebGL 不可用');
+      return;
+    }
+    const vs = `
+      attribute vec2 aPosition;
+      void main() {
+        gl_Position = vec4(aPosition, 0.0, 1.0);
+      }
+    `;
+    const fs = `
+      void main() {
+        gl_FragColor = vec4(0.2, 0.6, 0.9, 1.0);
+      }
+    `;
+    function compileShader(source, type) {
+      const shader = gl.createShader(type);
+      gl.shaderSource(shader, source);
+      gl.compileShader(shader);
+      if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+        console.error(gl.getShaderInfoLog(shader));
+        gl.deleteShader(shader);
+        return null;
+      }
+      return shader;
+    }
+    const program = gl.createProgram();
+    gl.attachShader(program, compileShader(vs, gl.VERTEX_SHADER));
+    gl.attachShader(program, compileShader(fs, gl.FRAGMENT_SHADER));
+    gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+      console.error(gl.getProgramInfoLog(program));
+    }
+    gl.useProgram(program);
+    const positions = [0, 0.5, -0.5, -0.5, 0.5, -0.5];
+    const buffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+    const loc = gl.getAttribLocation(program, 'aPosition');
+    gl.enableVertexAttribArray(loc);
+    gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+    gl.clearColor(0.1, 0.1, 0.1, 1);
+    function draw() {
+      gl.clear(gl.COLOR_BUFFER_BIT);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+      requestAnimationFrame(draw);
+    }
+    draw();
+  </script>
+</main>
+
+</main>
+<footer data-a2a="footer" style="margin-top:48px;padding:28px 16px;border-top:1px solid rgba(127,127,127,.16);text-align:center;font-family:system-ui,-apple-system,'PingFang SC',sans-serif;line-height:1.9;color:#8a8f99;background:transparent"><a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="display:inline-block;margin-bottom:10px"><img src="https://agent.oagi.com.cn/uploads/202606/29ea3ed5413830b3.png" alt="AutoA2A" style="height:36px;vertical-align:middle;border:0"></a><div style="font-size:13.5px;color:#6b7280;max-width:760px;margin:0 auto 6px">✅️ <b>AutoA2A</b> · 智能体互连 Agent to Agent 平台——让智能体无缝发现、协商、协作与安全交换数据，开启 AI 即服务新时代。</div><div style="font-size:13px">本网站由 <a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="color:#f2603c;text-decoration:none;font-weight:600">www.autoa2a.org</a> 多个 AI 协作生成</div><div style="font-size:12px;color:#aab;margin-top:6px">Copyright © 2025 - 2026 AutoA2A. All Rights Reserved. A2A版权所有</div></footer></body>
+</html>
