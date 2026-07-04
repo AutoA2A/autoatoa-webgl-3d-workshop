@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>模型库与资源管理</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{
+  --primary:#0d47a1;
+  --accent:#ffb300;
+  --bg:#f5f5f5;
+  --card-bg:#fff;
+  --text:#212121;
+  --muted:#757575;
+  --space:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'Helvetica Neue',Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.5;
+}
+a{color:inherit;text-decoration:none;}
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:var(--primary);
+  color:#fff;
+  padding:var(--space);
+}
+.header .logo{
+  font-size:1.25rem;
+  font-weight:600;
+}
+.nav{
+  display:flex;
+  gap:var(--space);
+}
+.nav a{
+  padding:calc(var(--space)/2) var(--space);
+  border-radius:4px;
+  transition:background .2s;
+}
+.nav a:hover{
+  background:rgba(255,255,255,0.2);
+}
+.menu-toggle{display:none;}
+.hamburger{
+  display:none;
+  flex-direction:column;
+  gap:4px;
+  cursor:pointer;
+}
+.hamburger span{
+  width:24px;height:3px;background:#fff;border-radius:2px;
+}
+.drawer{
+  position:fixed;
+  top:0;left:0;
+  height:100vh;width:260px;
+  background:var(--primary);color:#fff;
+  padding:var(--space);
+  box-shadow:2px 0 5px rgba(0,0,0,0.5);
+  transform:translateX(-100%);
+  transition:transform .3s ease;
+}
+.drawer .nav{
+  flex-direction:column;
+  gap:var(--space);
+  margin-top:calc(var(--space)*2);
+}
+.drawer .nav a{
+  width:100%;padding:var(--space);
+  text-align:left;border-radius:4px;
+}
+.drawer .nav a:hover{
+  background:rgba(255,255,255,0.2);
+}
+#menu-toggle:checked ~ .drawer{
+  transform:translateX(0);
+}
+.main{
+  padding:var(--space);
+  max-width:1200px;
+  margin:0 auto;
+}
+.card{
+  background:var(--card-bg);
+  border-radius:8px;
+  box-shadow:0 2px 4px rgba(0,0,0,0.1);
+  padding:var(--space);
+  margin-bottom:var(--space);
+}
+.btn{
+  display:inline-block;
+  background:var(--primary);color:#fff;
+  border:none;border-radius:6px;
+  padding:calc(var(--space)/2) var(--space);
+  cursor:pointer;font-size:1rem;
+}
+.btn:hover{
+  background:var(--accent);color:#000;
+}
+@media (max-width:768px){
+  .nav{display:none;}
+  .hamburger{display:flex;}
+}
+</style>
+<meta name="description" content="在线上传、浏览、下载GLTF/OBJ模型，提供搜索和标签分类，模型可一键加载到编辑器。"><meta name="keywords" content="WebGL,3D编辑,游戏开发,模型导入,场景编辑"><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="website"><meta property="og:title" content="模型库与资源管理"><meta property="og:description" content="在线上传、浏览、下载GLTF/OBJ模型，提供搜索和标签分类，模型可一键加载到编辑器。"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="模型库与资源管理"><meta name="twitter:description" content="在线上传、浏览、下载GLTF/OBJ模型，提供搜索和标签分类，模型可一键加载到编辑器。"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"模型库与资源管理","description":"在线上传、浏览、下载GLTF/OBJ模型，提供搜索和标签分类，模型可一键加载到编辑器。","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"CNY"}}</script><style data-a2a="basecss">*,*::before,*::after{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0}img,canvas,svg,video,table{max-width:100%;height:auto}pre,code{white-space:pre-wrap;word-break:break-word}[data-a2a="header"]{width:100%}@media(max-width:640px){body{font-size:15px}}</style></head>
+<body>
+<header class="header">
+  <div class="logo">WebGL 3D游戏工坊</div>
+  <label class="hamburger" for="menu-toggle">
+    <span></span><span></span><span></span>
+  </label>
+  <input type="checkbox" id="menu-toggle" aria-label="切换菜单" hidden>
+  <nav class="drawer" aria-label="抽屉菜单">
+    <div class="nav">
+      <a href="index.html">首页</a>
+      <a href="editor.html">在线场景编辑器</a>
+      <a href="model.html">模型库与资源管理</a>
+      <a href="tutorial.html">教程与示例</a>
+      <a href="community.html">社区与作品分享</a>
+    </div>
+  </nav>
+  <nav class="nav">
+    <a href="index.html">首页</a>
+    <a href="editor.html">在线场景编辑器</a>
+    <a href="model.html">模型库与资源管理</a>
+    <a href="tutorial.html">教程与示例</a>
+    <a href="community.html">社区与作品分享</a>
+  </nav>
+</header>
+
+<main class="main">
+
+<section>
+  <h2>模型库与资源管理</h2>
+
+  <!-- 上传模型 -->
+  <article class="card">
+    <h3>上传模型</h3>
+    <input type="file" id="modelFile" accept=".gltf,.glb,.obj">
+    <input type="text" id="modelTags" placeholder="标签（可选，用逗号分隔）">
+    <button id="uploadBtn" class="btn">上传</button>
+  </article>
+
+  <!-- 搜索与过滤 -->
+  <article class="card">
+    <h3>搜索与过滤</h3>
+    <input type="text" id="searchInput" placeholder="搜索模型名或标签">
+  </article>
+
+  <!-- 模型列表或空状态 -->
+  <div id="modelContainer"></div>
+</section>
+
+<script>
+  const STORAGE_KEY = 'modelLibrary';
+  const EDITOR_LOAD_KEY = 'modelToLoad';
+
+  // 读取库
+  function getLibrary() {
+    const data = localStorage.getItem(STORAGE_KEY);
+    return data ? JSON.parse(data) : [];
+  }
+  function saveLibrary(lib) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(lib));
+  }
+
+  // base64 编码
+  function arrayBufferToBase64(buf) {
+    return btoa(String.fromCharCode(...new Uint8Array(buf)));
+  }
+
+  // 渲染列表
+  function renderLibrary(filter = '') {
+    const lib = getLibrary();
+    const filtered = lib.filter(m => {
+      const text = (m.name + ' ' + (m.tags || []).join(' ')).toLowerCase();
+      return text.includes(filter.toLowerCase());
+    });
+
+    const container = document.getElementById('modelContainer');
+    container.innerHTML = '';
+
+    if (filtered.length === 0) {
+      // 使用库中的 empty 组件
+      const empty = document.createElement('div');
+      empty.className = 'empty';
+      empty.innerHTML = '<p>暂无模型</p><button class="btn" id="gotoUploadBtn">去上传</button>';
+      container.appendChild(empty);
+      document.getElementById('gotoUploadBtn').onclick = () => {
+        document.getElementById('modelFile').value = '';
+        document.getElementById('modelTags').value = '';
+        document.getElementById('modelFile').focus();
+      };
+      return;
+    }
+
+    // 创建卡片列表
+    const list = document.createElement('div');
+    list.style.display = 'flex';
+    list.style.flexWrap = 'wrap';
+    list.style.gap = 'var(--space)';
+
+    filtered.forEach(model => {
+      const card = document.createElement('article');
+      card.className = 'card';
+      card.style.flex = '1 1 calc(33.333% - var(--space))';
+      card.style.minWidth = '200px';
+
+      const title = document.createElement('h3');
+      title.textContent = model.name;
+      card.appendChild(title);
+
+      if (model.tags && model.tags.length) {
+        const tags = document.createElement('p');
+        tags.textContent = '标签: ' + model.tags.join(', ');
+        tags.style.color = 'var(--muted)';
+        card.appendChild(tags);
+      }
+
+      const type = document.createElement('p');
+      type.textContent = '类型: ' + model.type.toUpperCase();
+      type.style.fontSize = '0.9rem';
+      card.appendChild(type);
+
+      const btns = document.createElement('div');
+      btns.style.marginTop = 'var(--space)';
+
+      const dlBtn = document.createElement('a');
+      dlBtn.href = 'data:application/octet-stream;base64,' + model.data;
+      dlBtn.download = model.name + '.' + model.type;
+      dlBtn.className = 'btn';
+      dlBtn.textContent = '下载';
+      btns.appendChild(dlBtn);
+
+      const loadBtn = document.createElement('button');
+      loadBtn.className = 'btn';
+      loadBtn.style.marginLeft = 'var(--space)';
+      loadBtn.textContent = '加载到编辑器';
+      loadBtn.onclick = () => {
+        localStorage.setItem(EDITOR_LOAD_KEY, JSON.stringify({
+          name: model.name,
+          type: model.type,
+          data: model.data
+        }));
+        alert('模型已准备好，请在编辑器中打开并使用“导入模型”功能。');
+      };
+      btns.appendChild(loadBtn);
+
+      card.appendChild(btns);
+      list.appendChild(card);
+    });
+
+    container.appendChild(list);
+  }
+
+  // 上传按钮事件
+  document.getElementById('uploadBtn').addEventListener('click', () => {
+    const fileInput = document.getElementById('modelFile');
+    const file = fileInput.files[0];
+    if (!file) {
+      alert('请选择一个模型文件');
+      return;
+    }
+    const name = file.name;
+    const ext = name.split('.').pop().toLowerCase();
+    if (!['gltf', 'glb', 'obj'].includes(ext)) {
+      alert('仅支持 .gltf、.glb、.obj 文件');
+      return;
+    }
+    const tagsInput = document.getElementById('modelTags');
+    const tags = tagsInput.value
+      .split(',')
+      .map(t => t.trim())
+      .filter(t => t.length > 0);
+
+    const reader = new FileReader();
+    reader.onload = e => {
+      const base64 = arrayBufferToBase64(e.target.result);
+      const lib = getLibrary();
+      lib.push({
+        id: Date.now(),
+        name,
+        type: ext,
+        data: base64,
+        tags
+      });
+      saveLibrary(lib);
+      fileInput.value = '';
+      tagsInput.value = '';
+      renderLibrary(document.getElementById('searchInput').value);
+    };
+    reader.onerror = () => alert('读取文件失败');
+    reader.readAsArrayBuffer(file);
+  });
+
+  // 搜索输入事件
+  document.getElementById('searchInput').addEventListener('input', e => {
+    renderLibrary(e.target.value);
+  });
+
+  // 初始渲染
+  renderLibrary();
+</script>
+
+</main>
+<footer data-a2a="footer" style="margin-top:48px;padding:28px 16px;border-top:1px solid rgba(127,127,127,.16);text-align:center;font-family:system-ui,-apple-system,'PingFang SC',sans-serif;line-height:1.9;color:#8a8f99;background:transparent"><a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="display:inline-block;margin-bottom:10px"><img src="https://agent.oagi.com.cn/uploads/202606/29ea3ed5413830b3.png" alt="AutoA2A" style="height:36px;vertical-align:middle;border:0"></a><div style="font-size:13.5px;color:#6b7280;max-width:760px;margin:0 auto 6px">✅️ <b>AutoA2A</b> · 智能体互连 Agent to Agent 平台——让智能体无缝发现、协商、协作与安全交换数据，开启 AI 即服务新时代。</div><div style="font-size:13px">本网站由 <a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="color:#f2603c;text-decoration:none;font-weight:600">www.autoa2a.org</a> 多个 AI 协作生成</div><div style="font-size:12px;color:#aab;margin-top:6px">Copyright © 2025 - 2026 AutoA2A. All Rights Reserved. A2A版权所有</div></footer></body>
+</html>
