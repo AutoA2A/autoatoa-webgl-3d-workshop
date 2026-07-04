@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>教程与示例</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{
+  --primary:#0d47a1;
+  --accent:#ffb300;
+  --bg:#f5f5f5;
+  --card-bg:#fff;
+  --text:#212121;
+  --muted:#757575;
+  --space:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'Helvetica Neue',Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.5;
+}
+a{color:inherit;text-decoration:none;}
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:var(--primary);
+  color:#fff;
+  padding:var(--space);
+}
+.header .logo{
+  font-size:1.25rem;
+  font-weight:600;
+}
+.nav{
+  display:flex;
+  gap:var(--space);
+}
+.nav a{
+  padding:calc(var(--space)/2) var(--space);
+  border-radius:4px;
+  transition:background .2s;
+}
+.nav a:hover{
+  background:rgba(255,255,255,0.2);
+}
+.menu-toggle{display:none;}
+.hamburger{
+  display:none;
+  flex-direction:column;
+  gap:4px;
+  cursor:pointer;
+}
+.hamburger span{
+  width:24px;height:3px;background:#fff;border-radius:2px;
+}
+.drawer{
+  position:fixed;
+  top:0;left:0;
+  height:100vh;width:260px;
+  background:var(--primary);color:#fff;
+  padding:var(--space);
+  box-shadow:2px 0 5px rgba(0,0,0,0.5);
+  transform:translateX(-100%);
+  transition:transform .3s ease;
+}
+.drawer .nav{
+  flex-direction:column;
+  gap:var(--space);
+  margin-top:calc(var(--space)*2);
+}
+.drawer .nav a{
+  width:100%;padding:var(--space);
+  text-align:left;border-radius:4px;
+}
+.drawer .nav a:hover{
+  background:rgba(255,255,255,0.2);
+}
+#menu-toggle:checked ~ .drawer{
+  transform:translateX(0);
+}
+.main{
+  padding:var(--space);
+  max-width:1200px;
+  margin:0 auto;
+}
+.card{
+  background:var(--card-bg);
+  border-radius:8px;
+  box-shadow:0 2px 4px rgba(0,0,0,0.1);
+  padding:var(--space);
+  margin-bottom:var(--space);
+}
+.btn{
+  display:inline-block;
+  background:var(--primary);color:#fff;
+  border:none;border-radius:6px;
+  padding:calc(var(--space)/2) var(--space);
+  cursor:pointer;font-size:1rem;
+}
+.btn:hover{
+  background:var(--accent);color:#000;
+}
+@media (max-width:768px){
+  .nav{display:none;}
+  .hamburger{display:flex;}
+}
+</style>
+<meta name="description" content="提供视频教程、文档及可直接运行的示例场景，帮助用户快速上手WebGL游戏开发。"><meta name="keywords" content="WebGL,3D编辑,游戏开发,模型导入,场景编辑"><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="website"><meta property="og:title" content="教程与示例"><meta property="og:description" content="提供视频教程、文档及可直接运行的示例场景，帮助用户快速上手WebGL游戏开发。"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="教程与示例"><meta name="twitter:description" content="提供视频教程、文档及可直接运行的示例场景，帮助用户快速上手WebGL游戏开发。"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"教程与示例","description":"提供视频教程、文档及可直接运行的示例场景，帮助用户快速上手WebGL游戏开发。","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"CNY"}}</script><style data-a2a="basecss">*,*::before,*::after{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0}img,canvas,svg,video,table{max-width:100%;height:auto}pre,code{white-space:pre-wrap;word-break:break-word}[data-a2a="header"]{width:100%}@media(max-width:640px){body{font-size:15px}}</style></head>
+<body>
+<header class="header">
+  <div class="logo">WebGL 3D游戏工坊</div>
+  <label class="hamburger" for="menu-toggle">
+    <span></span><span></span><span></span>
+  </label>
+  <input type="checkbox" id="menu-toggle" aria-label="切换菜单" hidden>
+  <nav class="drawer" aria-label="抽屉菜单">
+    <div class="nav">
+      <a href="index.html">首页</a>
+      <a href="editor.html">在线场景编辑器</a>
+      <a href="model.html">模型库与资源管理</a>
+      <a href="tutorial.html">教程与示例</a>
+      <a href="community.html">社区与作品分享</a>
+    </div>
+  </nav>
+  <nav class="nav">
+    <a href="index.html">首页</a>
+    <a href="editor.html">在线场景编辑器</a>
+    <a href="model.html">模型库与资源管理</a>
+    <a href="tutorial.html">教程与示例</a>
+    <a href="community.html">社区与作品分享</a>
+  </nav>
+</header>
+
+<main class="main">
+
+<article class="card">
+  <h3>视频教程</h3>
+  <div style="display:flex; flex-direction:column; gap:var(--space);">
+    <video controls width="100%" style="max-width:600px;">
+      <source src="data:video/mp4;base64,AAAAHGZ0eXBpc29tAAAAAGlzb21pc28yYXZjMQAAAAhmcmVlAAAAHG1kYXQAAAAAAQAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" type="video/mp4">
+      您的浏览器不支持视频播放。
+    </video>
+    <p>快速入门：从零搭建 WebGL 渲染循环。</p>
+  </div>
+</article>
+
+<article class="card">
+  <h3>文档与指南</h3>
+  <ul>
+    <li><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/WebGL_API" target="_blank">MDN WebGL API 文档（外链，仅供参考）</a></li>
+    <li><a href="javascript:void(0)" onclick="toggleSection('glossary')">常用术语解释</a></li>
+    <li><a href="javascript:void(0)" onclick="toggleSection('pipeline')">渲染管线概览</a></li>
+  </ul>
+  <div id="glossary" style="display:none; margin-top:var(--space);">
+    <p><strong>Shader：</strong>在 GPU 上运行的程序，分为顶点着色器和片段着色器。</p>
+    <p><strong>Uniform：</strong>在渲染期间保持不变的全局变量。</p>
+  </div>
+  <div id="pipeline" style="display:none; margin-top:var(--space);">
+    <p>1. 创建 WebGL 上下文 → 2. 编译 Shader → 3. 创建缓冲区 → 4. 绑定属性 → 5. 绘制调用。</p>
+  </div>
+</article>
+
+<article class="card">
+  <h3>交互示例：旋转立方体</h3>
+  <canvas id="glCanvas" width="600" height="400" style="width:100%; max-width:600px; background:#000;"></canvas>
+  <button class="btn" id="toggleAnimBtn" style="margin-top:var(--space);">暂停动画</button>
+</article>
+
+<script>
+(() => {
+  const canvas = document.getElementById('glCanvas');
+  const gl = canvas.getContext('webgl');
+  if (!gl) {
+    canvas.parentNode.innerHTML = '<p>您的浏览器不支持 WebGL。</p>';
+    return;
+  }
+
+  const vertexSrc = `
+    attribute vec3 aPos;
+    attribute vec3 aColor;
+    uniform mat4 uMVP;
+    varying vec3 vColor;
+    void main(){vColor=aColor;gl_Position=uMVP*vec4(aPos,1.0);}
+  `;
+  const fragmentSrc = `
+    precision mediump float;
+    varying vec3 vColor;
+    void main(){gl_FragColor=vec4(vColor,1.0);}
+  `;
+
+  function compile(src, type){
+    const shader = gl.createShader(type);
+    gl.shaderSource(shader, src);
+    gl.compileShader(shader);
+    if(!gl.getShaderParameter(shader, gl.COMPILE_STATUS)){
+      console.error('Shader compile error:', gl.getShaderInfoLog(shader));
+    }
+    return shader;
+  }
+  const vs = compile(vertexSrc, gl.VERTEX_SHADER);
+  const fs = compile(fragmentSrc, gl.FRAGMENT_SHADER);
+  const program = gl.createProgram();
+  gl.attachShader(program, vs);
+  gl.attachShader(program, fs);
+  gl.linkProgram(program);
+  gl.useProgram(program);
+
+  const vertices = new Float32Array([
+    // positions       // colors
+    -1,-1,-1,  1,0,0,  1,-1,-1,  0,1,0,  1,1,-1,  0,0,1,
+    1,1,-1,   0,0,1, -1,1,-1,  1,1,0, -1,-1,1,  0,1,1,
+    1,-1,1,   1,0,1,  1,1,1,   1,1,1, -1,1,1,   0,1,1,
+    -1,1,1,   0,1,1, -1,-1,1,  1,0,0, -1,-1,-1, 0,0,0,
+    1,-1,-1,  0,1,0,  1,1,-1,  0,0,1,  1,1,1,   1,1,1,
+    -1,1,1,   0,1,1, -1,-1,1,  1,0,1, -1,-1,-1, 0,0,0
+  ]);
+  const indices = new Uint16Array([
+    0,1,2, 2,3,0,
+    4,5,6, 6,7,4,
+    8,9,10,10,11,8,
+    12,13,14,14,15,12,
+    16,17,18,18,19,16,
+    20,21,22,22,23,20
+  ]);
+
+  const vbo = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
+  gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+
+  const ebo = gl.createBuffer();
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ebo);
+  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indices, gl.STATIC_DRAW);
+
+  const posLoc = gl.getAttribLocation(program, 'aPos');
+  const colLoc = gl.getAttribLocation(program, 'aColor');
+  gl.enableVertexAttribArray(posLoc);
+  gl.vertexAttribPointer(posLoc, 3, gl.FLOAT, false, 24, 0);
+  gl.enableVertexAttribArray(colLoc);
+  gl.vertexAttribPointer(colLoc, 3, gl.FLOAT, false, 24, 12);
+
+  const uMVPLoc = gl.getUniformLocation(program, 'uMVP');
+
+  function perspective(fov, aspect, near, far){
+    const f = 1.0/Math.tan(fov/2);
+    return [
+      f/aspect,0,0,0,
+      0,f,0,0,
+      0,0,(far+near)/(near-far),(2*far*near)/(near-far),
+      0,0,-1,0
+    ];
+  }
+  function rotateY(a){
+    const c=Math.cos(a), s=Math.sin(a);
+    return [c,0,s,0,0,1,0,0,-s,0,c,0,0,0,0,1];
+  }
+  function multiply(a,b){
+    const out = new Float32Array(16);
+    for(let i=0;i<4;i++)for(let j=0;j<4;j++){
+      out[i*4+j]=0;
+      for(let k=0;k<4;k++)out[i*4+j]+=a[i*4+k]*b[k*4+j];
+    }
+    return out;
+  }
+
+  let angle=0;
+  let anim=true;
+  function render(){
+    if(anim) angle+=0.01;
+    gl.viewport(0,0,canvas.width,canvas.height);
+    gl.clearColor(0,0,0,1);
+    gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
+    gl.enable(gl.DEPTH_TEST);
+    const proj = perspective(Math.PI/4, canvas.width/canvas.height, 0.1, 100);
+    const view = [1,0,0,0,0,1,0,0,0,0,1,0,0,0,-5,1];
+    const model = rotateY(angle);
+    const mv = multiply(view, model);
+    const mvp = multiply(proj, mv);
+    gl.uniformMatrix4fv(uMVPLoc, false, mvp);
+    gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT,0);
+    requestAnimationFrame(render);
+  }
+  render();
+
+  document.getElementById('toggleAnimBtn').addEventListener('click',()=>{anim=!anim;});
+  
+  // 简单的折叠功能
+  window.toggleSection = function(id){
+    const el=document.getElementById(id);
+    el.style.display = el.style.display==='none'?'block':'none';
+  };
+})();
+</script>
+
+</main>
+<footer data-a2a="footer" style="margin-top:48px;padding:28px 16px;border-top:1px solid rgba(127,127,127,.16);text-align:center;font-family:system-ui,-apple-system,'PingFang SC',sans-serif;line-height:1.9;color:#8a8f99;background:transparent"><a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="display:inline-block;margin-bottom:10px"><img src="https://agent.oagi.com.cn/uploads/202606/29ea3ed5413830b3.png" alt="AutoA2A" style="height:36px;vertical-align:middle;border:0"></a><div style="font-size:13.5px;color:#6b7280;max-width:760px;margin:0 auto 6px">✅️ <b>AutoA2A</b> · 智能体互连 Agent to Agent 平台——让智能体无缝发现、协商、协作与安全交换数据，开启 AI 即服务新时代。</div><div style="font-size:13px">本网站由 <a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="color:#f2603c;text-decoration:none;font-weight:600">www.autoa2a.org</a> 多个 AI 协作生成</div><div style="font-size:12px;color:#aab;margin-top:6px">Copyright © 2025 - 2026 AutoA2A. All Rights Reserved. A2A版权所有</div></footer></body>
+</html>
