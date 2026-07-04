@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>在线场景编辑器</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{
+  --primary:#0d47a1;
+  --accent:#ffb300;
+  --bg:#f5f5f5;
+  --card-bg:#fff;
+  --text:#212121;
+  --muted:#757575;
+  --space:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'Helvetica Neue',Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.5;
+}
+a{color:inherit;text-decoration:none;}
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:var(--primary);
+  color:#fff;
+  padding:var(--space);
+}
+.header .logo{
+  font-size:1.25rem;
+  font-weight:600;
+}
+.nav{
+  display:flex;
+  gap:var(--space);
+}
+.nav a{
+  padding:calc(var(--space)/2) var(--space);
+  border-radius:4px;
+  transition:background .2s;
+}
+.nav a:hover{
+  background:rgba(255,255,255,0.2);
+}
+.menu-toggle{display:none;}
+.hamburger{
+  display:none;
+  flex-direction:column;
+  gap:4px;
+  cursor:pointer;
+}
+.hamburger span{
+  width:24px;height:3px;background:#fff;border-radius:2px;
+}
+.drawer{
+  position:fixed;
+  top:0;left:0;
+  height:100vh;width:260px;
+  background:var(--primary);color:#fff;
+  padding:var(--space);
+  box-shadow:2px 0 5px rgba(0,0,0,0.5);
+  transform:translateX(-100%);
+  transition:transform .3s ease;
+}
+.drawer .nav{
+  flex-direction:column;
+  gap:var(--space);
+  margin-top:calc(var(--space)*2);
+}
+.drawer .nav a{
+  width:100%;padding:var(--space);
+  text-align:left;border-radius:4px;
+}
+.drawer .nav a:hover{
+  background:rgba(255,255,255,0.2);
+}
+#menu-toggle:checked ~ .drawer{
+  transform:translateX(0);
+}
+.main{
+  padding:var(--space);
+  max-width:1200px;
+  margin:0 auto;
+}
+.card{
+  background:var(--card-bg);
+  border-radius:8px;
+  box-shadow:0 2px 4px rgba(0,0,0,0.1);
+  padding:var(--space);
+  margin-bottom:var(--space);
+}
+.btn{
+  display:inline-block;
+  background:var(--primary);color:#fff;
+  border:none;border-radius:6px;
+  padding:calc(var(--space)/2) var(--space);
+  cursor:pointer;font-size:1rem;
+}
+.btn:hover{
+  background:var(--accent);color:#000;
+}
+@media (max-width:768px){
+  .nav{display:none;}
+  .hamburger{display:flex;}
+}
+</style>
+<meta name="description" content="WebGL 3D场景实时编辑界面，支持拖入模型、调节属性、预览并导出GLTF格式。"><meta name="keywords" content="WebGL,3D编辑,游戏开发,模型导入,场景编辑"><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="website"><meta property="og:title" content="在线场景编辑器"><meta property="og:description" content="WebGL 3D场景实时编辑界面，支持拖入模型、调节属性、预览并导出GLTF格式。"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="在线场景编辑器"><meta name="twitter:description" content="WebGL 3D场景实时编辑界面，支持拖入模型、调节属性、预览并导出GLTF格式。"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"在线场景编辑器","description":"WebGL 3D场景实时编辑界面，支持拖入模型、调节属性、预览并导出GLTF格式。","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"CNY"}}</script><style data-a2a="basecss">*,*::before,*::after{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0}img,canvas,svg,video,table{max-width:100%;height:auto}pre,code{white-space:pre-wrap;word-break:break-word}[data-a2a="header"]{width:100%}@media(max-width:640px){body{font-size:15px}}</style></head>
+<body>
+<header class="header">
+  <div class="logo">WebGL 3D游戏工坊</div>
+  <label class="hamburger" for="menu-toggle">
+    <span></span><span></span><span></span>
+  </label>
+  <input type="checkbox" id="menu-toggle" aria-label="切换菜单" hidden>
+  <nav class="drawer" aria-label="抽屉菜单">
+    <div class="nav">
+      <a href="index.html">首页</a>
+      <a href="editor.html">在线场景编辑器</a>
+      <a href="model.html">模型库与资源管理</a>
+      <a href="tutorial.html">教程与示例</a>
+      <a href="community.html">社区与作品分享</a>
+    </div>
+  </nav>
+  <nav class="nav">
+    <a href="index.html">首页</a>
+    <a href="editor.html">在线场景编辑器</a>
+    <a href="model.html">模型库与资源管理</a>
+    <a href="tutorial.html">教程与示例</a>
+    <a href="community.html">社区与作品分享</a>
+  </nav>
+</header>
+
+<main class="main">
+
+<div style="display:flex; gap:var(--space);">
+  <div style="flex:2; min-width:0;">
+    <article class="card"><h3>场景预览</h3><div style="position:relative;width:100%;height:0;padding-bottom:66.66%;"><canvas id="glcanvas" style="position:absolute;top:0;left:0;width:100%;height:100%;"></canvas></div></article>
+  </div>
+  <div style="flex:1; min-width:0;">
+    <article class="card"><h3>模型库</h3><div id="dropArea" style="border:2px dashed var(--muted);border-radius:4px;padding:var(--space);text-align:center;color:var(--muted);">将模型文件拖至此处<br>支持 .json（自定义顶点/索引）</div><ul id="modelList" style="margin-top:var(--space);max-height:150px;overflow-y:auto;"></ul></article>
+
+    <article class="card"><h3>模型属性</h3>
+      <div style="margin-bottom:8px;"><label>缩放：<input type="range" id="scaleSlider" min="0.1" max="3" step="0.1" value="1"><span id="scaleVal">1.0</span></label></div>
+      <div style="margin-bottom:8px;"><label>旋转 X：<input type="range" id="rotXSlider" min="0" max="360" step="1" value="0"><span id="rotXVal">0°</span></label></div>
+      <div style="margin-bottom:8px;"><label>旋转 Y：<input type="range" id="rotYSlider" min="0" max="360" step="1" value="0"><span id="rotYVal">0°</span></label></div>
+      <div style="margin-bottom:8px;"><label>旋转 Z：<input type="range" id="rotZSlider" min="0" max="360" step="1" value="0"><span id="rotZVal">0°</span></label></div>
+    </article>
+
+    <article class="card"><h3>操作</h3>
+      <button class="btn" id="importBtn">导入模型</button>
+      <button class="btn" id="exportBtn" style="margin-left:var(--space);">导出 GLTF</button>
+      <button class="btn" id="resetBtn" style="margin-left:var(--space);">重置视图</button>
+    </article>
+  </div>
+</div>
+
+<script>
+(() => {
+  const canvas = document.getElementById('glcanvas');
+  const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
+  if (!gl) { alert('WebGL not supported'); return; }
+
+  const vs = `
+    attribute vec3 aPos;
+    uniform mat4 uMVP;
+    void main(){ gl_Position = uMVP * vec4(aPos,1.0); }
+  `;
+  const fs = `
+    precision mediump float;
+    void main(){ gl_FragColor = vec4(0.2,0.6,0.9,1.0); }
+  `;
+  function compileShader(src,type){
+    const sh = gl.createShader(type);
+    gl.shaderSource(sh,src);
+    gl.compileShader(sh);
+    if(!gl.getShaderParameter(sh,gl.COMPILE_STATUS)){
+      throw new Error(gl.getShaderInfoLog(sh));
+    }
+    return sh;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog,compileShader(vs,gl.VERTEX_SHADER));
+  gl.attachShader(prog,compileShader(fs,gl.FRAGMENT_SHADER));
+  gl.linkProgram(prog);
+  if(!gl.getProgramParameter(prog,gl.LINK_STATUS)){
+    throw new Error(gl.getProgramInfoLog(prog));
+  }
+  const posLoc = gl.getAttribLocation(prog,'aPos');
+  const mvpLoc = gl.getUniformLocation(prog,'uMVP');
+
+  let positions = new Float32Array([
+    -1,-1,-1, 1,-1,-1, 1,1,-1, -1,1,-1,
+    -1,-1,1, 1,-1,1, 1,1,1, -1,1,1
+  ]);
+  let indices = new Uint16Array([
+    0,1,2, 0,2,3,
+    4,5,6, 4,6,7,
+    0,1,5, 0,5,4,
+    2,3,7, 2,7,6,
+    0,3,7, 0,7,4,
+    1,2,6, 1,6,5
+  ]);
+
+  let posBuf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER,posBuf);
+  gl.bufferData(gl.ARRAY_BUFFER,positions,gl.DYNAMIC_DRAW);
+  gl.enableVertexAttribArray(posLoc);
+  gl.vertexAttribPointer(posLoc,3,gl.FLOAT,false,0,0);
+
+  let idxBuf = gl.createBuffer();
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,idxBuf);
+  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,indices,gl.STATIC_DRAW);
+
+  let scale = 1;
+  let rotX = 0, rotY = 0, rotZ = 0;
+  function rad(d){ return d*Math.PI/180; }
+
+  function draw(){
+    gl.clearColor(0.95,0.95,0.95,1);
+    gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
+    gl.enable(gl.DEPTH_TEST);
+    gl.useProgram(prog);
+
+    const aspect = canvas.clientWidth/canvas.clientHeight;
+    const fov = Math.PI/4;
+    const f = 1.0/Math.tan(fov/2);
+    const near = 0.1, far = 100.0;
+    const proj = new Float32Array([
+      f/aspect,0,0,0,
+      0,f,0,0,
+      0,0,(far+near)/(near-far),-1,
+      0,0,(2*far*near)/(near-far),0
+    ]);
+
+    const cx = Math.cos(rotX), sx = Math.sin(rotX);
+    const cy = Math.cos(rotY), sy = Math.sin(rotY);
+    const cz = Math.cos(rotZ), sz = Math.sin(rotZ);
+    const rotXm = new Float32Array([1,0,0,0, 0,cx,-sx,0, 0,sx,cx,0, 0,0,0,1]);
+    const rotYm = new Float32Array([cy,0,sy,0, 0,1,0,0, -sy,0,cy,0, 0,0,0,1]);
+    const rotZm = new Float32Array([cz,-sz,0,0, sz,cz,0,0, 0,0,1,0, 0,0,0,1]);
+    function mul(a,b){
+      const res = new Float32Array(16);
+      for(let r=0;r<4;r++){
+        for(let c=0;c<4;c++){
+          res[r*4+c]=0;
+          for(let k=0;k<4;k++){
+            res[r*4+c]+=a[r*4+k]*b[k*4+c];
+          }
+        }
+      }
+      return res;
+    }
+    let rot = mul(rotZm, mul(rotYm, rotXm));
+    const scaleM = new Float32Array([scale,0,0,0, 0,scale,0,0, 0,0,scale,0, 0,0,0,1]);
+    const model = mul(scaleM, rot);
+    const view = new Float32Array([1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,-3,1]);
+    const mvp = mul(proj, mul(view, model));
+    gl.uniformMatrix4fv(mvpLoc,false,mvp);
+
+    gl.drawElements(gl.TRIANGLES,indices.length,gl.UNSIGNED_SHORT,0);
+    requestAnimationFrame(draw);
+  }
+  draw();
+
+  const scaleSlider = document.getElementById('scaleSlider');
+  const scaleVal = document.getElementById('scaleVal');
+  const rotXSlider = document.getElementById('rotXSlider');
+  const rotXVal = document.getElementById('rotXVal');
+  const rotYSlider = document.getElementById('rotYSlider');
+  const rotYVal = document.getElementById('rotYVal');
+  const rotZSlider = document.getElementById('rotZSlider');
+  const rotZVal = document.getElementById('rotZVal');
+
+  function updateUI(){
+    scaleVal.textContent = scale.toFixed(2);
+    rotXVal.textContent = rotXSlider.value + '°';
+    rotYVal.textContent = rotYSlider.value + '°';
+    rotZVal.textContent = rotZSlider.value + '°';
+  }
+  scaleSlider.addEventListener('input',()=>{ scale = parseFloat(scaleSlider.value); updateUI(); });
+  rotXSlider.addEventListener('input',()=>{ rotX = parseFloat(rotXSlider.value); updateUI(); });
+  rotYSlider.addEventListener('input',()=>{ rotY = parseFloat(rotYSlider.value); updateUI(); });
+  rotZSlider.addEventListener('input',()=>{ rotZ = parseFloat(rotZSlider.value); updateUI(); });
+  updateUI();
+
+  const modelList = document.getElementById('modelList');
+  const dropArea = document.getElementById('dropArea');
+  ['dragenter','dragover','dragleave','drop'].forEach(evt=>{
+    dropArea.addEventListener(evt, e=>e.preventDefault(),false);
+  });
+  dropArea.addEventListener('drop', e=>{
+    e.preventDefault();
+    const dt = e.dataTransfer;
+    if(dt.items){
+      for(let i=0;i<dt.items.length;i++){
+        const item = dt.items[i];
+        if(item.kind==='file'){
+          const file = item.getAsFile();
+          handleFile(file);
+        }
+      }
+    }else{
+      for(const file of dt.files){
+        handleFile(file);
+      }
+    }
+  });
+
+  function handleFile(file){
+    if(!file.name.endsWith('.json')){
+      alert('仅支持 .json 模型文件（包含 positions 和 indices）');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = ev=>{
+      try{
+        const data = JSON.parse(ev.target.result);
+        if(!data.positions || !data.indices){
+          throw new Error('缺少 positions 或 indices');
+        }
+        positions = new Float32Array(data.positions);
+        indices = new Uint16Array(data.indices);
+        gl.bindBuffer(gl.ARRAY_BUFFER,posBuf);
+        gl.bufferData(gl.ARRAY_BUFFER,positions,gl.DYNAMIC_DRAW);
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,idxBuf);
+        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,indices,gl.STATIC_DRAW);
+        const li = document.createElement('li');
+        li.textContent = file.name;
+        modelList.appendChild(li);
+      }catch(err){
+        alert('文件解析失败: '+err);
+      }
+    };
+    reader.onerror = ()=>alert('读取文件失败');
+    reader.readAsText(file);
+  }
+
+  const importBtn = document.getElementById('importBtn');
+  const fileInput = document.createElement('input');
+  fileInput.type='file';
+  fileInput.accept='.json';
+  fileInput.style.display='none';
+  document.body.appendChild(fileInput);
+  importBtn.addEventListener('click',()=>fileInput.click());
+  fileInput.addEventListener('change',()=>{
+    const file = fileInput.files[0];
+    if(file) handleFile(file);
+    fileInput.value='';
+  });
+
+  const exportBtn = document.getElementById('exportBtn');
+  exportBtn.addEventListener('click',()=>{
+    const json = {
+      asset:{version:'2.0'},
+      scenes:[{nodes:[0]}],
+      nodes:[{mesh:0}],
+      meshes:[{
+        primitives:[{
+          attributes:{POSITION:0},
+          indices:0,
+          mode:4
+        }]
+      }],
+      accessors:[
+        {
+          bufferView:0,
+          byteOffset:0,
+          componentType:5126,
+          count:positions.length/3,
+          type:"VEC3",
+          max:[Math.max(...positions.filter((_,i)=>i%3===0)), Math.max(...positions.filter((_,i)=>i%3===1)), Math.max(...positions.filter((_,i)=>i%3===2))],
+          min:[Math.min(...positions.filter((_,i)=>i%3===0)), Math.min(...positions.filter((_,i)=>i%3===1)), Math.min(...positions.filter((_,i)=>i%3===2))]
+        },
+        {
+          bufferView:1,
+          byteOffset:0,
+          componentType:5123,
+          count:indices.length,
+          type:"SCALAR",
+          max:[Math.max(...indices)],
+          min:[Math.min(...indices)]
+        }
+      ],
+      bufferViews:[
+        {buffer:0,byteOffset:0,byteLength:positions.byteLength,target:34962},
+        {buffer:0,byteOffset:positions.byteLength,byteLength:indices.byteLength,target:34963}
+      ],
+      buffers:[{byteLength:positions.byteLength+indices.byteLength}]
+    };
+    const jsonStr = JSON.stringify(json);
+    const jsonPadding = (4 - (jsonStr.length % 4)) % 4;
+    const jsonWithPad = jsonStr + ' '.repeat(jsonPadding);
+    const binBuf = new ArrayBuffer(positions.byteLength+indices.byteLength);
+    new Float32Array(binBuf).set(positions);
+    new Uint16Array(binBuf, positions.byteLength).set(indices);
+    const binPadding = (4 - (binBuf.byteLength % 4)) % 4;
+    const totalSize = 12 + 8 + jsonWithPad.length + jsonPadding + 8 + binBuf.byteLength + binPadding;
+    const glb = new ArrayBuffer(totalSize);
+    const dv = new DataView(glb);
+    dv.setUint32(0,0x46546C67,true);
+    dv.setUint32(4,2,true);
+    let offset = 12;
+    dv.setUint32(offset, jsonWithPad.length,true); offset+=4;
+    dv.setUint32(offset,0x4E4F534A,true); offset+=4;
+    for(let i=0;i<jsonWithPad.length;i++) dv.setUint8(offset+i, jsonWithPad.charCodeAt(i));
+    offset += jsonWithPad.length;
+    dv.setUint32(offset, binBuf.byteLength,true); offset+=4;
+    dv.setUint32(offset,0x004E4942,true); offset+=4;
+    new Uint8Array(glb, offset, binBuf.byteLength).set(new Uint8Array(binBuf));
+    offset += binBuf.byteLength;
+    if(binPadding>0){
+      for(let i=0;i<binPadding;i++) dv.setUint8(offset+i,0);
+    }
+    const blob = new Blob([glb],{type:'model/gltf-binary'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href=url;
+    a.download='scene.glb';
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  const resetBtn = document.getElementById('resetBtn');
+  resetBtn.addEventListener('click',()=>{
+    scaleSlider.value=1; rotXSlider.value=0; rotYSlider.value=0; rotZSlider.value=0;
+    scale=1; rotX=0; rotY=0; rotZ=0;
+    updateUI();
+  });
+})();
+</script>
+
+</main>
+<footer data-a2a="footer" style="margin-top:48px;padding:28px 16px;border-top:1px solid rgba(127,127,127,.16);text-align:center;font-family:system-ui,-apple-system,'PingFang SC',sans-serif;line-height:1.9;color:#8a8f99;background:transparent"><a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="display:inline-block;margin-bottom:10px"><img src="https://agent.oagi.com.cn/uploads/202606/29ea3ed5413830b3.png" alt="AutoA2A" style="height:36px;vertical-align:middle;border:0"></a><div style="font-size:13.5px;color:#6b7280;max-width:760px;margin:0 auto 6px">✅️ <b>AutoA2A</b> · 智能体互连 Agent to Agent 平台——让智能体无缝发现、协商、协作与安全交换数据，开启 AI 即服务新时代。</div><div style="font-size:13px">本网站由 <a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="color:#f2603c;text-decoration:none;font-weight:600">www.autoa2a.org</a> 多个 AI 协作生成</div><div style="font-size:12px;color:#aab;margin-top:6px">Copyright © 2025 - 2026 AutoA2A. All Rights Reserved. A2A版权所有</div></footer></body>
+</html>
